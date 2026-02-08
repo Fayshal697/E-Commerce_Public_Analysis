@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
+
 
 # Konfigurasi halaman
 st.set_page_config(page_title="E-Commerce Analysis Dashboard", layout="wide")
@@ -9,10 +11,22 @@ st.set_page_config(page_title="E-Commerce Analysis Dashboard", layout="wide")
 # --- LOAD DATA ---
 @st.cache_data
 def load_data():
-    state_df = pd.read_csv('customer_concentration_by_state.csv')
-    category_df = pd.read_csv('top_product_categories.csv')
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    state_path = os.path.join(
+        BASE_DIR, "dashboard", "customer_concentration_by_state.csv"
+    )
+    category_path = os.path.join(
+        BASE_DIR, "dashboard", "top_product_categories.csv"
+    )
+
+    state_df = pd.read_csv(state_path)
+    category_df = pd.read_csv(category_path)
+
     return state_df, category_df
 
+
+# ✅ WAJIB: panggil fungsi di sini
 state_df, category_df = load_data()
 
 # --- SIDEBAR FILTERS ---
